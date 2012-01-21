@@ -23,7 +23,7 @@ test('timeout', function (t) {
     var server;
     function on () {
         server = dnode({});
-        server.use(upnode.ping);
+        server.use(upnode.server);
         server.listen(port);
     }
     
