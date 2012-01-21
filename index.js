@@ -43,9 +43,23 @@ var upnode = module.exports = function (cons) {
     return { connect : connect.bind(null, up, cons) };
 };
 
-upnode.ping = function (client, conn) {
-    if (!this.ping) this.ping = function (cb) { cb() };
+upnode.server = function (client, conn) {
+    this.upnode = this.upnode || {}
+    if (!this.upnode.ping) this.upnode.ping = function (cb) { cb() };
+    if (!this.ping) {
+      this.ping = function(cb) {
+          console.warn("DEPRECATED: Connecting dnode trying to use remote.ping method. " +
+                      "Upgrade to latest upnode and use upnode.server")
+          return this.upnode.ping(cb)
+      }
+    }
 };
+
+upnode.ping = function(client, conn) {
+    console.warn("DEPRECATED: upnode.ping Please use upnode.server.")
+    return upnode.server(client, conn)
+}
+
 
 upnode.connect = function () {
     return upnode({}).connect.apply(null, arguments);
@@ -101,9 +115,12 @@ function connect (up, cons) {
         });
         
         conn.on('ready', function () {
-            if (opts.ping && typeof remote.ping !== 'function') {
+            // remote.ping == support older dnode by using remote.ping 
+            // in absence of remote.upnode
+            var doPing = remote.upnode ? remote.upnode.ping : remote.ping
+            if (opts.ping && doPing && typeof doPing !== 'function') {
                 up.emit('error', new Error(
-                    'Remote does not implement ping. '
+                    'Remote does not implement upnode.ping. '
                     + 'Add server.use(require(\'upnode\').ping) to the remote.'
                 ));
             }
@@ -116,7 +133,7 @@ function connect (up, cons) {
                         stream.destroy();
                     }, opts.timeout);
                     
-                    remote.ping(function () {
+                    doPing(function () {
                         var elapsed = Date.now() - t0;
                         if (to) clearTimeout(to);
                         up.emit('ping', elapsed);

@@ -61,7 +61,7 @@ test('simple', function (t) {
         server = dnode(function (client, conn) {
             this.time = function (cb) { cb(Date.now()) };
         });
-        server.use(upnode.ping);
+        server.use(upnode.server);
         server.listen(port);
     }
     

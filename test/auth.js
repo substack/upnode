@@ -45,7 +45,7 @@ test('authenticate state', function (t) {
                 else cb('ACCESS DENIED')
             };
         });
-        server.use(upnode.ping);
+        server.use(upnode.server);
         server.listen(port);
     }
     connect();
