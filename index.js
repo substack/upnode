@@ -29,9 +29,9 @@ var upnode = module.exports = function (cons) {
     
     up.close = function () {
         up.closed = true;
+        if (up.conn) up.conn.end();
         up.emit('close');
     };
-    
     var emitter = new EventEmitter;
     Object.keys(EventEmitter.prototype).forEach(function (name) {
         if (typeof emitter[name] === 'function') {
@@ -88,10 +88,6 @@ function connect (up, cons) {
     
     var client = dnode(function (remote, conn) {
         up.conn = conn;
-        
-        up.on('close', function () {
-            conn.end();
-        });
         
         conn.once('up', function (r) {
             up.remote = r;

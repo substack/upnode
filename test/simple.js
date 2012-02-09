@@ -70,3 +70,45 @@ test('simple', function (t) {
         server.close();
     }
 });
+
+test('does not leak on.close listeners', function(t) {
+    t.plan(1);
+    var port = Math.floor(Math.random() * 5e4 + 1e4);
+    var up = upnode.connect(port);
+    var count = 0;
+    var iterations = 3;
+    on();
+
+    up.once('close', function() {
+        t.equal(up.listeners('close').length, 0);
+        t.end();
+    })
+    up.on('up', function() {
+        iterations--;
+        off();
+    })
+
+    up.on('down', function() {
+        if (iterations === 0) return done();
+        on();
+    })
+    function done () {
+        up.close();
+    }
+
+    var server;
+    function on () {
+        setTimeout(function() {
+            server = dnode();
+            server.use(upnode.ping);
+            server.listen(port);
+        }, 100)
+    }
+
+    function off () {
+        setTimeout(function() {
+            server.end();
+            server.close();
+        }, 100)
+    }
+});
