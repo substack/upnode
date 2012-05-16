@@ -112,3 +112,26 @@ test('does not leak on.close listeners', function(t) {
         }, 100)
     }
 });
+
+test('add callbacks in connection handler', function (t) {
+    t.plan(2);
+    var port = Math.floor(Math.random() * 5e4 + 1e4);
+    
+    var up = upnode(function () {
+        this.beep = 5;
+    }).connect(port, function(remote, conn) {
+        up(function(remote_, conn_) {
+            t.equal(remote, remote_);
+            t.equal(conn, conn_);
+        })
+        conn.emit('up', remote);
+    });
+    
+    var server = upnode();
+    server.listen(port);
+    
+    t.on('end', function () {
+        up.close();
+        server.close();
+    });
+});

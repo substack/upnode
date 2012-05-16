@@ -55,7 +55,7 @@ function createConnectionUp () {
             t = 0;
         }
         
-        if (up.conn) fn(up.remote, up.conn)
+        if (up.remote) fn(up.remote, up.conn)
         else if (t) {
             var f = function () {
                 clearTimeout(to);
