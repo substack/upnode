@@ -111,7 +111,7 @@ function connect (up, cons) {
         if (typeof arg === 'function') acc.cb = arg
         else if (typeof arg === 'object') {
             Object.keys(arg).forEach(function (key) {
-                acc.opts[key] = arg;
+                acc.opts[key] = arg[key];
             });
             acc.args.push(arg);
         }
