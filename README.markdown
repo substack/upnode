@@ -20,7 +20,7 @@ server.js:
 ``` js
 var upnode = require('upnode');
 
-var server = dnode(function (client, conn) {
+var server = upnode(function (client, conn) {
     this.time = function (cb) { cb(new Date().toString()) };
 });
 server.listen(7000);
