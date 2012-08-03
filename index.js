@@ -45,6 +45,10 @@ var upnode = module.exports = function (cons) {
                 var ix = server._ds.indexOf(d);
                 if (ix >= 0) server._ds.splice(ix, 1);
             });
+
+            d.on('local', function(remote, conn) {
+                server.emit('local', remote, conn);
+            });
         });
         
         if (args.port) {
