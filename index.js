@@ -188,6 +188,9 @@ function connect (up, cons) {
         up.emit('up', r);
     });
     
+    client.on('error', function(error) {
+      up.emit('error', new Error(error));
+    });
     client.on('remote', function (remote) {
         up.conn = client;
         if (opts.ping && typeof remote.ping !== 'function') {
