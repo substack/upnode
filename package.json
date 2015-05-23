@@ -1,7 +1,7 @@
 {
     "name" : "upnode",
     "description" : "transactional connection queue for dnode",
-    "version" : "0.4.3",
+    "version" : "0.4.4",
     "repository" : {
         "type" : "git",
         "url" : "git://github.com/substack/upnode.git"
@@ -23,7 +23,7 @@
         "test" : "tap test/*.js"
     },
     "dependencies" : {
-        "dnode" : "~1.0.1"
+        "dnode" : "~1.2.1"
     },
     "devDependencies" : {
         "tap" : "~0.2.6"
