@@ -179,7 +179,7 @@ function connect (up, cons) {
         };
         
         return res;
-    });
+    }, opts);
     
     client.once('up', function (r) {
         up.remote = r;
