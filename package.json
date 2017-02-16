@@ -7,6 +7,9 @@
         "url" : "git://github.com/substack/upnode.git"
     },
     "main" : "index.js",
+    "browser": {
+      "net": false
+    },
     "keywords" : [
         "dnode",
         "queue",
