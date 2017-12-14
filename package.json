@@ -1,7 +1,7 @@
 {
     "name" : "upnode",
     "description" : "transactional connection queue for dnode",
-    "version" : "0.5.0",
+    "version" : "0.6.0",
     "repository" : {
         "type" : "git",
         "url" : "git://github.com/substack/upnode.git"
