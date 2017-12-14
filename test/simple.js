@@ -44,7 +44,7 @@ test('simple', function (t) {
         t.ok(r0.max > Date.now() - 5000);
         t.ok(r0.max - r0.min < 10);
         
-        t.ok(messages[0] < messages[messages.length-1]);
+        t.ok(messages[0] <= messages[messages.length-1]);
         t.ok(messages.length > 5);
         
         t.equal(counts.up, 2);
